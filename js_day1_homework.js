@@ -115,78 +115,71 @@ type: 'personal'
 
 // Write functions for the following tasks!
 // 7.1 Calculate the total cash in accounts
-function calculateTotalCash(){
-  var total = 0;
-  for(obj of accounts){
-    total += obj.amount;
-  }
-  return total;
+function calculateTotalCash(accounts) {
+    return accounts.reduce(function(acc, val){
+        return acc + val.amount;
+    }, 0);
 }
+
+console.log(calculateTotalCash(accounts))
+
 // 7.2 Find the amount of money in the account with the largest balance
 function findAmountOfMoneyWithTheLargestBalance(){
-  var highest = accounts[0];
-  for(account of accounts){
-    if(account.amount > highest.amount){
-      highest = account;
-    }
-  }
-  return highest.amount;
+    return accounts.sort(function(a, b){return b.amount-a.amount})[0].amount.toFixed(2);
 }
+
+console.log(findAmountOfMoneyWithTheLargestBalance());
+
 // 7.3 Find the name of the account with the smallest balance
 function findTheNameOfTheAccountWithTheLowestBalance(){
-  var lowest = accounts[0];
-  for(account of accounts){
-    if(account.amount < lowest.amount){
-      lowest = account;
-    }
-  }
-  return lowest.name;
+    return accounts.sort(function(a, b){return a.amount-b.amount})[0].name;
 }
+
+console.log(findTheNameOfTheAccountWithTheLowestBalance(accounts));
 
 // 7.4 Calculate the average bank account value
-function calculateAverage(){
-  return calculateTotalCash() / accounts.length;
+function calculateAverage(accounts){
+    return (calculateTotalCash(accounts) / accounts.length).toFixed(2);
 }
+
+console.log(calculateAverage(accounts));
+
 // 7.5 Find the value of marcs bank account
 function findMarcsBankAccountValue(){
-  for(account of accounts){
-    if(account.name === "marc"){
-      return account.amount;
-    }
-  }
+   return accounts.find(function(element) {
+       return element.name === "marc";
+   }).amount;
 }
+
+console.log(findMarcsBankAccountValue(accounts));
+
 // 7.6 Find the holder of the largest bank account
-function findTheHolderOfTheLargestBalance(){
-  var highest = accounts[0];
-  for(account of accounts){
-    if(account.amount > highest.amount){
-      highest = account;
-    }
-  }
-  return highest.name;
+
+function findTheHolderOfTheLargestBalance(accounts){
+    return accounts.sort(function(a, b){return b.amount-a.amount})[0].name;
 }
+
+console.log(findTheHolderOfTheLargestBalance(accounts));
 
 // 7.7 Calculate the total cash in business accounts
-function findTheTotalCashInBusinessAccounts(){
-  var totalBusinessCash = 0;
-  for(account of accounts){
-    if(account.type === 'business'){
-      totalBusinessCash += account.amount;
-    }
-  }
-  return totalBusinessCash;
+function findTheTotalCashInBusinessAccounts(accounts){
+    var business_accounts = accounts.filter(function(account){
+        return account.type === "business";
+    });
+    return calculateTotalCash(business_accounts);
 }
 
+console.log(findTheTotalCashInBusinessAccounts(accounts));
+
 // 7.8 Find the largest personal account owner
-function findTheLargestPersonalAccountOwner(){
-  var largestPersonalAccountOwner = accounts[0];
-  for(account of accounts){
-    if(account.amount > largestPersonalAccountOwner.amount && account.type == "personal"){
-      largestPersonalAccountOwner = account.name;
-    }
-  }
-  return largestPersonalAccountOwner.name;
+function findTheLargestPersonalAccountOwner(accounts){
+    var personal_accounts =  accounts.filter(function(account){
+        return account.type === "personal";
+    });
+    return findTheHolderOfTheLargestBalance(personal_accounts);
 }
+
+console.log(findTheLargestPersonalAccountOwner(accounts));
 
 // Section 8
 
